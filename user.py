@@ -1,12 +1,12 @@
-from password import encode
+from validations import validate_username
 
 
 class User:
-    def __init__(self, username, password, age, gender, id_):
-        self.__set_username(username)
-        self.__set_password(password)
-        self.__set_age(age)
+    def __init__(self, username, age, id_):
+        self.username = username
+        self.age = age
         self.id = id_
+        self.logged = True
 
     def __str__(self):
         return "{} - {} - {}".format(self.username, self.gender, self.password)
@@ -14,18 +14,20 @@ class User:
     def __repr__(self):
         return self.__str__()
 
-    def __set_username(username):
-        validate_username(username)
-        self.username = username
+    def get_id(self):
+        return self.id
 
-    def __set_password(password):
-        validate_password(password)
-        self.password = encode(password)
+    def update_username(self, hospital):
+        new_username = input("new username:> ")
+        validate_username(new_username)
+        hospital.update_user_username(self.id, new_username)
+        self.username = new_username
 
-    def __set_age(age):
-        validate_age(age)
-        self.age = age
+    def update_age(self, hospital):
+        new_age = int(input("age:> "))
+        hospital.update_user_age(self.id, new_age)
+        self.age = new_age
 
-    def update_db_with_me(self, db, cursor):
-        cursor.execute(ADD_USER, (self.username, self.password, self.age))
-        db.commit()
+    def logout(self, hospital):
+        hospital.logout_user(self.id)
+        self.logged = False

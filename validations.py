@@ -1,4 +1,4 @@
-from settings import INJURIES, ACADEMIC_TITLES
+from settings import INJURIES, ACADEMIC_TITLES, MIN_PASS_LENGTH
 
 
 def validate_username(username):
@@ -7,18 +7,18 @@ def validate_username(username):
 
 
 def validate_password(password):
-    if len(password) <= 8  # MIN_LENGTH:
-        raise ValueError("Length of password must be at least {} symbols".format(MIN_LENGTH))
+    if len(password) < MIN_PASS_LENGTH:
+        raise ValueError("Length of password must be at least {} symbols".format(MIN_PASS_LENGTH))
     no_upper = True
     no_lower = True
     no_digit = True
     for letter in password:
         if letter.isupper():
-            has_upper = False
+            no_upper = False
         if letter.islower():
-            has_lower = False
+            no_lower = False
         if letter.isdigit():
-            has_digit = False
+            no_digit = False
     if no_upper:
         raise ValueError("Password must have capital letter.")
     if no_lower:
@@ -31,17 +31,10 @@ def validate_age(age):
     if type(age) is not int:
         raise TypeError("Type of age must be int.")
     if age < 0 or age > 120:
-        raise ValueError("Invalid age.")
+        raise ValueError("Unvalid age.")
 
 
-def validate_gender(gender):
-    if type(gender) is not str:
-        raise TypeError("Gender must be of type string.")
-    if gender != 'M' and gender != 'F':
-        raise ValueError("Gender can be \'M or \'F")
-
-
-def valudate_injury(injury):
+def validate_injury(injury):
     if injury not in INJURIES:
         raise ValueError("Unrecognised injury.")
 
@@ -49,6 +42,7 @@ def valudate_injury(injury):
 def validate_academic_title(academic_title):
     if academic_title not in ACADEMIC_TITLES:
         raise ValueError("Unrecognised academic title.")
+
 
 def validate_doctor_username(username):
     if type(username) is not str or not(username.startswith("Dr.")):

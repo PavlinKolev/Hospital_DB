@@ -51,7 +51,6 @@ def populate_hospital(hospital):
     hospital.add_visitation(5, "2016-12-31 14:00")
 
 
-
 def is_hospital_existing(hospital_name):
     file_path = os.getcwd() + '/' + hospital_name + '.db'
     if os.path.isfile(file_path):
