@@ -1,5 +1,6 @@
 import os
 import sys
+import getpass
 from hospital_data_base import HospitalDB
 from doctor import Doctor
 from patient import Patient
@@ -46,14 +47,14 @@ class HospitalManager:
 
     def __login(self):
         username = input("username:> ")
-        password = input("password:> ")
+        password = getpass.getpass("password:> ")
         self.hospital.login_user(username, password)
 
     def __register(self):
         username = input("username:> ")
-        password = input("password:> ")
+        password = getpass.getpass("password:> ")
         validate_password(password)
-        pass_2 = input("password again:> ")
+        pass_2 = getpass.getpass("password:> ")
         if password != pass_2:
             raise ValueError("Different password.")
         age = int(input("age:> "))
